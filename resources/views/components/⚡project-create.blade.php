@@ -13,6 +13,8 @@ new class extends Component {
 
     public $selectedProject;
 
+    public $old_image;
+
     protected array $rules = [
         'title' => 'required|string|max:255',
         'description' => 'required|string|max:255',
@@ -40,7 +42,7 @@ new class extends Component {
         $this->title = '';
         $this->description = '';
         $this->url = '';
-        $this->tempImagePath = null;
+        $this->old_image = null;
         $this->dispatch('modal-show', name: 'create-project');
     }
 
@@ -53,7 +55,7 @@ new class extends Component {
             $this->title = $project->title;
             $this->description = $project->description;
             $this->url = $project->url;
-            $this->tempImagePath = $project->image;
+            $this->old_image = $project->image;
             $this->dispatch('modal-show', name: 'create-project');
         }
     }
@@ -73,11 +75,11 @@ new class extends Component {
                 'title' => $this->title,
                 'description' => $this->description,
                 'url' => $this->url,
-                'image' => $imagePath ?? $this->tempImagePath,
+                'image' => $imagePath ?? $this->old_image,
             ],
         );
 
-        $this->reset(['title', 'description', 'url', 'image', 'selectedProject', 'tempImagePath']);
+        $this->reset(['title', 'description', 'url', 'image', 'selectedProject', 'old_image']);
         $this->dispatch('modal-close', name: 'create-project');
         $this->dispatch('project-saved');
     }
@@ -91,15 +93,13 @@ new class extends Component {
             <div class="space-y-4">
                 <!-- Image Upload with Preview -->
                 <div class="space-y-2">
-                    <flux:input label="Project Image" type="file" aspect="video" wire:model="image"
-                        :preview="$tempImagePath" accept="image/*"></flux:input>
+                    <flux:input label="Project Image" type="file" aspect="video" wire:model.live="image"
+                        preview="{{ asset('storage/' . $old_image) }}" accept="image/*"></flux:input>
                 </div>
 
-                <flux:input label="Title" wire:model="title" required></flux:input>
-                <flux:input label="Description" wire:model="description" required></flux:input>
-                <flux:input label="URL" wire:model="url" required></flux:input>
-
-
+                <flux:input label="Title" wire:model.live="title" required></flux:input>
+                <flux:input label="URL" wire:model.live="url" required></flux:input>
+                <flux:textarea label="Description" wire:model.live="description" required></flux:textarea>
             </div>
             <div class="flex justify-center mt-4" name="footer">
                 <flux:button type="submit" color="primary">Save</flux:button>

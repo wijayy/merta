@@ -31,12 +31,13 @@
     } else {
         $defaultPreview = '';
     }
+
 @endphp
 
-<div {{ $styleAttributes->class($classes) }} data-flux-input-file wire:ignore tabindex="0" x-data="{
-    previewUrl: '{{ $defaultPreview }}',
-    hasInitial: '{{ $defaultPreview }}' !== '',
-    showHiddenInput: '{{ $defaultPreview }}' !== '',
+<div {{ $styleAttributes->class($classes) }} data-flux-input-file tabindex="0" x-data="{
+    previewUrl: @js($defaultPreview),
+    hasInitial: @js(!empty($defaultPreview)),
+    showHiddenInput: @js(!empty($defaultPreview)),
     clearImage() {
         this.previewUrl = null;
         this.hasInitial = false;
@@ -80,19 +81,12 @@
         <div x-cloak x-show="!previewUrl" class="w-full text-xs font-semibold text-center">No file chosen</div>
     </div>
 
-    <div class="">{{ $preview }}</div>
-
-
-
-
     {{-- BUTTON --}}
     <flux:button as="div" class="cursor-pointer" :$size aria-hidden="true">
         {!! $multiple ? __('Choose files') : __('Choose file') !!}
     </flux:button>
 
-    {{-- <div class="">{{ $defaultPreview }}</div> --}}
 
     {{-- HIDDEN INPUT UNTUK IMAGE LAMA --}}
     <flux:input type="hidden" x-ref="old_image" wire:model.live="{{ $oldImageName }}" />
-
 </div>

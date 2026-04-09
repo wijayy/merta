@@ -1,4 +1,4 @@
-<div class="rounded py-2 px-4 bg-neutral-700 flex justify-between">
+<div class="rounded py-2 px-4 bg-white dark:bg-neutral-700 flex justify-between">
     <div class="">
 
         <div class="text-lg font-semibold">{{ $slot }}</div>

@@ -53,7 +53,6 @@
 ])
 
 @php
-
     $inputAttributes = Flux::attributesAfter('input:', $attributes, []);
 
     // There are a few loading scenarios that this covers:
@@ -179,7 +178,7 @@
 
 <?php if ($type === 'file'): ?>
 <flux:with-field :$attributes :$name>
-    <flux:input.file :$attributes :$name :$size />
+    <flux:input.file :$attributes :$preview :$aspect :$name :$size />
 </flux:with-field>
 <?php elseif ($as !== 'button'): ?>
 <flux:with-field :$attributes :$name>

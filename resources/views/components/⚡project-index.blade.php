@@ -63,33 +63,13 @@ new class extends Component {
     <flux:sidebar-header>{{ $title }}
 
         <x-slot name="button">
-            <flux:button color="blue" variant="primary" size="sm" wire:click="createModal">Create Project</flux:button>
+            <flux:button  variant="primary" size="sm" wire:click="createModal">Create Project
+            </flux:button>
         </x-slot>
     </flux:sidebar-header>
     <flux:sidebar-content>
 
-        <div class="grid grid-cols-3 gap-4">
-            @foreach ($projectList as $item)
-                <div class="border border-mine-300 rounded-lg">
-                    <div class="bg-cover bg-center bg-no-repeat aspect-video rounded-t-lg"
-                        style="background-image: url('{{ asset('storage/' . $item->image) }}') "></div>
-                    <div class="p-4">
-                        <div class="text-lg font-semibold">{{ $item->title }}</div>
-                        <div class="text-sm text-neutral-400 mt-1">{{ $item->description }}</div>
-
-                        <div class="flex justify-center gap-2 mt-4">
-                            <flux:button size="sm" href="{{ $item->url }}" icon="eye" color="blue"
-                                variant="primary"></flux:button>
-                            <flux:button size="sm" icon="pencil-square" wire:click="editModal({{ $item->id }})"
-                                color="yellow" variant="primary">
-                            </flux:button>
-                            <flux:button size="sm" icon="trash" color="rose" variant="primary"
-                                wire:click="openDeleteModal({{ $item->id }})"></flux:button>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        <flux:project-index :projectList="$projectList" :button="true"></flux:project-index>
         <flux:modal name="delete-project">
             <div>
                 <p>Are you sure you want to delete this project {{ $selectedProject?->title }}?</p>
